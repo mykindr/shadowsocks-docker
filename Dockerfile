@@ -1,25 +1,22 @@
-# Build breakwa11/shadowsocks from github source
-# single-user version
+# shadowsocks-docker
 
 FROM ubuntu:14.04.3
-
-MAINTAINER aprikyblue <aprikyblue@gmail.com>
-
+MAINTAINER Musalut <Verwalter@live.de>
 RUN apt-get update && \
-    apt-get install -y m2crypto git python2.7-minimal
+    apt-get install -y python-pip libnet1 libnet1-dev libpcap0.8 libpcap0.8-dev git
 
-# Shadowsocks will be saved /etc/shadowsocks
-RUN git clone -b manyuser https://github.com/breakwa11/shadowsocks.git /etc/shadowsocks
+RUN pip install shadowsocks
 
-# Optimizing shadowsocks
-ADD 60-shadowsocks.conf /etc/sysctl.d/60-shadowsocks.conf
-RUN sysctl --system
+RUN git clone https://github.com/snooda/net-speeder.git net-speeder
+WORKDIR net-speeder
+RUN sh build.sh
 
-# Copy configuration file
+RUN mv net_speeder /usr/local/bin/
+ADD ss-docker.sh /usr/local/bin/ss-docker.sh
 ADD shadowsocks.json /etc/shadowsocks.json
+RUN chmod +x /usr/local/bin/ss-docker.sh
+RUN chmod +x /usr/local/bin/net_speeder
+RUN chmod +x /etc/shadowsocks.json
 
-# Please modify this if you chanaged shadowsocks server port
-EXPOSE 34780
-
-# Startup single-user version
+# Configure container to run as an executable
 CMD ["/etc/shadowsocks/shadowsocks/server.py","-c","/etc/shadowsocks.json"]
