@@ -19,4 +19,4 @@ RUN chmod +x /usr/local/bin/net_speeder
 RUN chmod +x /etc/shadowsocks.json
 
 # Configure container to run as an executable
-CMD ["/etc/shadowsocks/shadowsocks/server.py","-c","/etc/shadowsocks.json"]
+CMD ["sh","/usr/local/bin/ss-docker.sh"]
