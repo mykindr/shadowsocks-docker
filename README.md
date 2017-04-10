@@ -1,7 +1,7 @@
 # shadowsocks-docker
-server_port:5463
+server_port:18388
 
-local_port:10800
+local_port:1080
 
 password:111222
 
