@@ -1,5 +1,5 @@
 # shadowsocks-docker
-server_port:18388
+server_port:8388
 
 local_port:1080
 
